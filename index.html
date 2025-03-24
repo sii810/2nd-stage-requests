@@ -3,20 +3,28 @@
     <head>
     <title>2nd Stage Requests</title>
     <style>
+        header {
+            text-align: center;
+            padding: 50px 0; /* Add padding for space above and below */
+            background-color: lightgray; /* Optional: Add a light background color */
+        }
         .container {
             display: grid;
             grid-template-columns: 80% 20%;
-            height: 100vh;
+            height: calc(100vh - 150px); /* Adjust height to account for header */
         }
         .container div:first-child {
             border-right: 2px solid black;
         }
         .container div:last-child {
-            padding: 20px; /* Add some padding for better appearance */
+            padding: 20px;
         }
     </style>
     </head>
     <body style="background-color: white;">
+        <header>
+            <h1>2nd Stage Requests</h1>
+        </header>
         <div class="container">
             <div>Column 1</div>
             <div>
