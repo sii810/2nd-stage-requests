@@ -20,22 +20,18 @@
             align-items: flex-start;
             padding: 10px;
         }
-        #textbox {
-            display: none;
-            margin-left: 0;
+        .textbox {
             margin-top: 10px;
         }
-        #boldText {
+        .boldText {
             display: none;
             font-weight: bold;
             border: 1px solid black;
             padding: 5px;
-            margin-left: 0;
             margin-top: 10px;
         }
-        #editButton {
+        .editButton {
             display: none;
-            margin-left: 0;
             margin-top: 5px;
         }
         #addTextbox {
@@ -56,67 +52,97 @@
         <div class="container">
             <div id="column1">
                 <button id="addTextbox">+</button>
-                <input type="text" id="textbox">
-                <div id="boldText"></div>
-                <button id="editButton">Edit</button>
             </div>
             <div>
                 <div id="seifBox" class="clickable-box">Seif Amer</div>
             </div>
         </div>
         <script>
-            let textbox = document.getElementById('textbox');
-            let boldText = document.getElementById('boldText');
-            let editButton = document.getElementById('editButton');
+            let column1 = document.getElementById('column1');
             let seifBox = document.getElementById('seifBox');
+            let textboxCount = 0;
 
             function saveState() {
-                localStorage.setItem('textboxValue', textbox.value);
-                localStorage.setItem('boldTextValue', boldText.textContent);
-                localStorage.setItem('textboxDisplay', textbox.style.display);
-                localStorage.setItem('boldTextDisplay', boldText.style.display);
-                localStorage.setItem('editButtonDisplay', editButton.style.display);
+                let textboxes = document.querySelectorAll('.textbox');
+                let boldTexts = document.querySelectorAll('.boldText');
+                let editButtons = document.querySelectorAll('.editButton');
+
+                let textboxStates = [];
+                for (let i = 0; i < textboxes.length; i++) {
+                    textboxStates.push({
+                        value: textboxes[i].value,
+                        display: textboxes[i].style.display,
+                        boldText: boldTexts[i].textContent,
+                        boldTextDisplay: boldTexts[i].style.display,
+                        editButtonDisplay: editButtons[i].style.display
+                    });
+                }
+                localStorage.setItem('textboxStates', JSON.stringify(textboxStates));
             }
 
             function loadState() {
-                textbox.value = localStorage.getItem('textboxValue') || '';
-                boldText.textContent = localStorage.getItem('boldTextValue') || '';
-                textbox.style.display = localStorage.getItem('textboxDisplay') || 'none';
-                boldText.style.display = localStorage.getItem('boldTextDisplay') || 'none';
-                editButton.style.display = localStorage.getItem('editButtonDisplay') || 'none';
+                let textboxStates = JSON.parse(localStorage.getItem('textboxStates')) || [];
+                for (let i = 0; i < textboxStates.length; i++) {
+                    addTextBox(textboxStates[i].value, textboxStates[i].display, textboxStates[i].boldText, textboxStates[i].boldTextDisplay, textboxStates[i].editButtonDisplay);
+                }
+            }
+
+            function addTextBox(value = '', textboxDisplay = 'inline', boldTextValue = '', boldTextDisplay = 'none', editButtonDisplay = 'none') {
+                textboxCount++;
+
+                let textbox = document.createElement('input');
+                textbox.type = 'text';
+                textbox.className = 'textbox';
+                textbox.id = 'textbox' + textboxCount;
+                textbox.value = value;
+                textbox.style.display = textboxDisplay;
+
+                let boldText = document.createElement('div');
+                boldText.className = 'boldText';
+                boldText.id = 'boldText' + textboxCount;
+                boldText.textContent = boldTextValue;
+                boldText.style.display = boldTextDisplay;
+
+                let editButton = document.createElement('button');
+                editButton.className = 'editButton';
+                editButton.id = 'editButton' + textboxCount;
+                editButton.textContent = 'Edit';
+                editButton.style.display = editButtonDisplay;
+
+                column1.appendChild(textbox);
+                column1.appendChild(boldText);
+                column1.appendChild(editButton);
+
+                textbox.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        boldText.textContent = textbox.value;
+                        textbox.style.display = 'none';
+                        boldText.style.display = 'inline';
+                        editButton.style.display = 'inline';
+                        saveState();
+                    }
+                });
+
+                editButton.onclick = function() {
+                    textbox.value = boldText.textContent;
+                    boldText.style.display = 'none';
+                    editButton.style.display = 'none';
+                    textbox.style.display = 'inline';
+                    saveState();
+                };
             }
 
             loadState();
 
             document.getElementById('addTextbox').onclick = function() {
-                textbox.style.display = 'inline';
-                saveState();
-            };
-
-            textbox.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {
-                    boldText.textContent = textbox.value;
-                    textbox.style.display = 'none';
-                    boldText.style.display = 'inline';
-                    editButton.style.display = 'inline';
-                    saveState();
-                }
-            });
-
-            editButton.onclick = function() {
-                textbox.value = boldText.textContent;
-                boldText.style.display = 'none';
-                editButton.style.display = 'none';
-                textbox.style.display = 'inline';
+                addTextBox();
                 saveState();
             };
 
             seifBox.onclick = function() {
                 alert('Seif Amer clicked!');
             };
-
             window.addEventListener('beforeunload', saveState);
-
         </script>
     </body>
     </html>
