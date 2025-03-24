@@ -16,9 +16,16 @@
         }
         .container div:first-child {
             border-right: 2px solid black;
+            display: flex; /* add flex to align button and input */
+            align-items: center; /* vertically align items */
+            padding: 10px; /* add some padding */
         }
         .container div:last-child {
             padding: 20px;
+        }
+        #textbox {
+            display: none; /* Initially hide the text box */
+            margin-left: 10px; /* add some space between the button and text box */
         }
     </style>
     </head>
@@ -27,14 +34,25 @@
             <h1>2nd Stage Requests</h1>
         </header>
         <div class="container">
-            <div>Column 1</div>
+            <div>
+                <button id="addTextbox">+</button>
+                <input type="text" id="textbox">
+            </div>
             <div>
                 <select>
                     <option value="seif">Seif Amer</option>
-                    <option value="hatem">Hatem Mekky</option>
-                    <option value="anna">Anna Mahmoud</option>
                 </select>
             </div>
         </div>
+        <script>
+            document.getElementById('addTextbox').onclick = function() {
+                var textbox = document.getElementById('textbox');
+                if (textbox.style.display === 'none') {
+                    textbox.style.display = 'inline';
+                } else {
+                    textbox.style.display = 'none';
+                }
+            };
+        </script>
     </body>
     </html>
