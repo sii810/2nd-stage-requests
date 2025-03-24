@@ -14,18 +14,25 @@
             grid-template-columns: 80% 20%;
             height: calc(100vh - 150px);
         }
-        .container div:first-child {
-            border-right: 2px solid black;
-            display: flex; /* add flex to align button and input */
-            align-items: center; /* vertically align items */
-            padding: 10px; /* add some padding */
-        }
-        .container div:last-child {
-            padding: 20px;
+        #column1 {
+          display: flex; /* add flex to align button and input */
+          align-items: center; /* vertically align items */
+          padding: 10px; /* add some padding */
         }
         #textbox {
-            display: none; /* Initially hide the text box */
-            margin-left: 10px; /* add some space between the button and text box */
+            display: none;
+            margin-left: 10px;
+        }
+        #boldText {
+            display: none;
+            font-weight: bold;
+            border: 1px solid black;
+            padding: 5px;
+            margin-left: 10px;
+        }
+        #editButton {
+            display: none;
+            margin-left: 5px;
         }
     </style>
     </head>
@@ -34,9 +41,11 @@
             <h1>2nd Stage Requests</h1>
         </header>
         <div class="container">
-            <div>
+            <div id="column1">
                 <button id="addTextbox">+</button>
                 <input type="text" id="textbox">
+                <div id="boldText"></div>
+                <button id="editButton">Edit</button>
             </div>
             <div>
                 <select>
@@ -45,13 +54,29 @@
             </div>
         </div>
         <script>
+            let textbox = document.getElementById('textbox');
+            let boldText = document.getElementById('boldText');
+            let editButton = document.getElementById('editButton');
+            let column1 = document.getElementById('column1');
+
             document.getElementById('addTextbox').onclick = function() {
-                var textbox = document.getElementById('textbox');
-                if (textbox.style.display === 'none') {
-                    textbox.style.display = 'inline';
-                } else {
+                textbox.style.display = 'inline';
+            };
+
+            textbox.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    boldText.textContent = textbox.value;
                     textbox.style.display = 'none';
+                    boldText.style.display = 'inline';
+                    editButton.style.display = 'inline';
                 }
+            });
+
+            editButton.onclick = function() {
+                textbox.value = boldText.textContent;
+                boldText.style.display = 'none';
+                editButton.style.display = 'none';
+                textbox.style.display = 'inline';
             };
         </script>
     </body>
