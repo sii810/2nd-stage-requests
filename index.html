@@ -9,13 +9,25 @@
             height: 100vh;
         }
         .container div:first-child {
-            border-right: 2px grey;
+            border-right: 2px solid black;
+        }
+        .options-container {
+            padding: 20px; /* Add some padding for spacing */
         }
     </style>
     </head>
-    <body style="background-color: White;">
+    <body style="background-color: white;">
         <div class="container">
-            <div>Column 1</div>
+            <div>
+                <div class="options-container">
+                    <ul>
+                        <li>Schengen</li>
+                        <li>USA</li>
+                        <li>Australia</li>
+                        <li>Japan</li>
+                    </ul>
+                </div>
+            </div>
             <div>Column 2</div>
         </div>
     </body>
