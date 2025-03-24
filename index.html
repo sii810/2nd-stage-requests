@@ -15,24 +15,31 @@
             height: calc(100vh - 150px);
         }
         #column1 {
-          display: flex; /* add flex to align button and input */
-          align-items: center; /* vertically align items */
-          padding: 10px; /* add some padding */
+            display: flex;
+            flex-direction: column; /* Align items in a column */
+            align-items: flex-start; /* Align items to the top */
+            padding: 10px;
         }
         #textbox {
             display: none;
-            margin-left: 10px;
+            margin-left: 0;
+            margin-top: 10px; /* Add margin to align with selection */
         }
         #boldText {
             display: none;
             font-weight: bold;
             border: 1px solid black;
             padding: 5px;
-            margin-left: 10px;
+            margin-left: 0;
+            margin-top: 10px; /* Add margin to align with selection */
         }
         #editButton {
             display: none;
-            margin-left: 5px;
+            margin-left: 0;
+            margin-top: 5px; /* Add margin to align with selection */
+        }
+        #addTextbox {
+          margin-top:5px;
         }
     </style>
     </head>
@@ -68,16 +75,4 @@
                     boldText.textContent = textbox.value;
                     textbox.style.display = 'none';
                     boldText.style.display = 'inline';
-                    editButton.style.display = 'inline';
-                }
-            });
-
-            editButton.onclick = function() {
-                textbox.value = boldText.textContent;
-                boldText.style.display = 'none';
-                editButton.style.display = 'none';
-                textbox.style.display = 'inline';
-            };
-        </script>
-    </body>
-    </html>
+                
