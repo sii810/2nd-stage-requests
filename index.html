@@ -11,8 +11,8 @@
         .container div:first-child {
             border-right: 2px solid black;
         }
-        .options-container {
-            padding: 20px; /* Add some padding for spacing */
+        .container div:last-child {
+            padding: 20px; /* Add some padding for better appearance */
         }
     </style>
     </head>
@@ -20,14 +20,12 @@
         <div class="container">
             <div>Column 1</div>
             <div>
-                <div class="options-container">
-                    <ul>
-                        <li>Schengen</li>
-                        <li>USA</li>
-                        <li>Australia</li>
-                        <li>Japan</li>
-                    </ul>
-                </div>
+                <form>
+                    <label><input type="checkbox" name="country" value="schengen"> Schengen</label><br>
+                    <label><input type="checkbox" name="country" value="usa"> USA</label><br>
+                    <label><input type="checkbox" name="country" value="australia"> Australia</label><br>
+                    <label><input type="checkbox" name="country" value="japan"> Japan</label>
+                </form>
             </div>
         </div>
     </body>
