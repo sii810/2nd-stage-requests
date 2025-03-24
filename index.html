@@ -41,11 +41,11 @@
         #addTextbox {
           margin-top:5px;
         }
-        .clickable-box {
+        #seifBox {
             border: 1px solid black;
             padding: 10px;
             cursor: pointer;
-            margin-top: 10px; /* Add margin to align with input */
+            margin-top: 10px;
         }
     </style>
     </head>
@@ -61,17 +61,36 @@
                 <button id="editButton">Edit</button>
             </div>
             <div>
-                <div class="clickable-box" onclick="alert('Seif Amer clicked!');">Seif Amer</div>
+                <div id="seifBox" class="clickable-box">Seif Amer</div>
             </div>
         </div>
         <script>
             let textbox = document.getElementById('textbox');
             let boldText = document.getElementById('boldText');
             let editButton = document.getElementById('editButton');
-            let column1 = document.getElementById('column1');
+            let seifBox = document.getElementById('seifBox');
+
+            function saveState() {
+                localStorage.setItem('textboxValue', textbox.value);
+                localStorage.setItem('boldTextValue', boldText.textContent);
+                localStorage.setItem('textboxDisplay', textbox.style.display);
+                localStorage.setItem('boldTextDisplay', boldText.style.display);
+                localStorage.setItem('editButtonDisplay', editButton.style.display);
+            }
+
+            function loadState() {
+                textbox.value = localStorage.getItem('textboxValue') || '';
+                boldText.textContent = localStorage.getItem('boldTextValue') || '';
+                textbox.style.display = localStorage.getItem('textboxDisplay') || 'none';
+                boldText.style.display = localStorage.getItem('boldTextDisplay') || 'none';
+                editButton.style.display = localStorage.getItem('editButtonDisplay') || 'none';
+            }
+
+            loadState();
 
             document.getElementById('addTextbox').onclick = function() {
                 textbox.style.display = 'inline';
+                saveState();
             };
 
             textbox.addEventListener('keydown', function(event) {
@@ -80,6 +99,7 @@
                     textbox.style.display = 'none';
                     boldText.style.display = 'inline';
                     editButton.style.display = 'inline';
+                    saveState();
                 }
             });
 
@@ -88,7 +108,15 @@
                 boldText.style.display = 'none';
                 editButton.style.display = 'none';
                 textbox.style.display = 'inline';
+                saveState();
             };
+
+            seifBox.onclick = function() {
+                alert('Seif Amer clicked!');
+            };
+
+            window.addEventListener('beforeunload', saveState);
+
         </script>
     </body>
     </html>
